@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for punit project.
 
@@ -20,10 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&)hw)d=gpxxp7g&)dm(4ia6s!_(nfd&my6%s_z9qir56!dts6b'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == 'True'
+
 
 ALLOWED_HOSTS =  ['*']
 
