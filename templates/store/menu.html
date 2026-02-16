@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tea Menu | Add to Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body {
+                background-color: #f4f7f1;
+            overflow-x: hidden;
+            background-attachment: fixed; background-size: cover; color: #fff;
+        }
+        nav {
+            position: fixed;
+    top: 0;
+    width: 100%;
+    background: linear-gradient(359deg, #070707, #ff00000f);
+    padding: 1.2rem 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    
+    backdrop-filter: blur(10px);
+}
+        
+        .logo1{color: white; text-decoration: none; margin-left: 20px; font-weight: 600;}
+        .logo { font-family: 'Playfair Display', serif; color: white; font-size: 1.8rem; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 600; }
+
+        .menu-container { margin-top: 120px;  text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;
+         }
+
+        .card {
+            background:white;
+            color: #333; transition: 0.4s; text-align: center;
+            border-radius: 15px;
+            border: 1px solid black;
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; height: 230px; object-fit: cover; border-radius: 15px; }
+        .price { color: black; font-weight: bold; font-size: 1.2rem; margin: 10px 0; }
+        
+        .add-btn {
+            background: darkblue; color: white; border: none; padding: 10px 20px;
+            border-radius: 50px; cursor: pointer; transition: 0.3s;
+
+        }
+        .add-btn:hover { background: black; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a class="logo1" href="{% url 'home' %}"><div class="logo">SAGTANI CHAI & CO.</div></a>
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">home</a>
+            <a href="{% url 'menu' %}">Menu</a>
+            <a href="{% url 'cart' %}" id="cart-count">Cart</a>
+        </div>
+    </nav>
+<div class="menu-container">
+    <h1 style="font-family: 'Playfair Display'; font-size: 3rem; color: black; margin-bottom: 30px;">
+        Our Collection
+    </h1>
+
+    <div style="display:flex; gap:40px;">
+
+        <!-- Sidebar Category Column -->
+        <div class="Categories" style="width:250px; background:#fff8f8; padding:20px; border-radius:15px; height:fit-content;border-right: 5px solid black">
+            <h3 style="color:black; margin-bottom:15px;">Categories</h3>
+
+            <a href="{% url 'menu' %}" style="display:block; color:rgb(0, 0, 0); margin-bottom:10px; text-decoration: none;">
+                All Products
+            </a>
+
+            {% for cat in categories %}
+                <a href="{% url 'menu' %}?category={{ cat.id }}" 
+                   style="display:block; color:rgb(0, 0, 0); margin-bottom:10px; text-decoration: none;">
+                    {{ cat.name }}
+                </a>
+            {% endfor %}
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid" style="flex:1;">
+
+            {% for product in products %}
+            <div class="card">
+                <img src="{{ product.image.url }}">
+                <h3>{{ product.title }}</h3>
+
+                {% if product.discount_price %}
+                    <p class="price">
+                        ₹{{ product.discount_price }}
+                        <del>₹{{ product.price }}</del>
+                    </p>
+                {% else %}
+                    <p class="price">₹{{ product.price }}</p>
+                {% endif %}
+
+                <a href="{% url 'product_detail' product.id %}">
+                    <button class="add-btn">View Product</button>
+                </a>
+            </div>
+            {% empty %}
+                <p>No products found in this category.</p>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+    <script>
+        function addToCart(name, price, img) {
+            let cart = JSON.parse(localStorage.getItem('teaCart')) || [];
+            
+            // Check if item already exists
+            let existingItem = cart.find(item => item.name === name);
+            if(existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, img, quantity: 1 });
+            }
+
+            localStorage.setItem('teaCart', JSON.stringify(cart));
+            updateCartCount();
+            alert(name + " added to cart!");
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('teaCart')) || [];
+            document.getElementById('cart-count').innerText = `Cart (${cart.length})`;
+        }
+        updateCartCount();
+
+        // Navbar JS logic
+const btnLink = document.getElementById('login-nav-btn'); // Maan lo aapka login link ye hai
+if (localStorage.getItem('isLoggedIn') === 'true') {
+    btnLink.innerText = "My Account";
+    btnLink.href = "login.html"; // Ye ab Account page ka kaam karega
+} else {
+    btnLink.innerText = "Login";
+    btnLink.href = "login.html";
+}
+    </script>
+</body>
+</html>

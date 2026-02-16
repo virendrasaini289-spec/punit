@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard | Chai & Co.</title>
+    <style>
+        body { font-family: sans-serif; padding: 40px; background: #f4f4f4; }
+        .db-card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #1e3902; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Tea Store Admin Panel</h1>
+
+    <div class="db-card">
+        <h2>Registered Users (Login List)</h2>
+        <table id="userTable">
+            <thead>
+                <tr><th>Name</th><th>Email</th><th>Login Date/Time</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="db-card">
+        <h2>All Customer Orders</h2>
+        <table id="orderTable">
+            <thead>
+                <tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Items</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        // Load Users
+        const users = JSON.parse(localStorage.getItem('allUsers')) || [];
+        const userTbody = document.querySelector('#userTable tbody');
+        users.forEach(u => {
+            userTbody.innerHTML += `<tr><td>${u.name}</td><td>${u.email}</td><td>${u.date}</td></tr>`;
+        });
+
+        // Load All Orders
+        const orders = JSON.parse(localStorage.getItem('myOrders')) || [];
+        const orderTbody = document.querySelector('#orderTable tbody');
+        orders.forEach(o => {
+            let items = o.items.map(i => i.name).join(", ");
+            orderTbody.innerHTML += `<tr><td>${o.id}</td><td>Customer</td><td>₹${o.total}</td><td>${items}</td></tr>`;
+        });
+    </script>
+</body>
+</html>

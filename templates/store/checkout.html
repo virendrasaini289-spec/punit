@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout - Chai & Co.</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            background:#f4f4f4;
+        }
+
+        nav{
+            background:#1e3902;
+            padding:15px 8%;
+            color:#c5a059;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .checkout-container{
+            width:85%;
+            margin:40px auto;
+            display:grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap:30px;
+        }
+
+        .box{
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        h3{
+            margin-bottom:20px;
+            padding-bottom:10px;
+            border-bottom:1px solid #eee;
+            color:#1e3902;
+        }
+
+        input, select{
+            width:100%;
+            padding:12px;
+            margin-bottom:15px;
+            border:1px solid #ddd;
+            border-radius:8px;
+            outline:none;
+            transition:0.3s;
+        }
+
+        input:focus{
+            border-color:#1e3902;
+        }
+
+        .summary-item{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:12px;
+        }
+
+        .total-row{
+            font-weight:bold;
+            border-top:1px solid #eee;
+            padding-top:15px;
+            margin-top:10px;
+            font-size:18px;
+        }
+
+        .place-order-btn{
+            background:#1e3902;
+            color:white;
+            width:100%;
+            padding:15px;
+            border:none;
+            border-radius:50px;
+            font-size:1.1rem;
+            cursor:pointer;
+            margin-top:20px;
+            transition:0.3s;
+        }
+
+        .place-order-btn:hover{
+            background:#163002;
+        }
+
+        .empty-cart{
+            text-align:center;
+            padding:20px;
+            font-weight:bold;
+            color:red;
+        }
+
+        @media(max-width:900px){
+            .checkout-container{
+                grid-template-columns:1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <h2>CHAI & CO.</h2>
+    <div>{{ request.user.username }}</div>
+</nav>
+
+<div class="checkout-container">
+
+    <!-- Delivery Form -->
+    <div class="box">
+        <h3>Delivery Address</h3>
+
+        <form method="POST" action="{% url 'place_order' %}">
+            {% csrf_token %}
+
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="text" name="address" placeholder="Full Address" required>
+            <input type="text" name="city" placeholder="City" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+
+            <h3 style="margin-top:20px;">Payment Method</h3>
+
+            <select name="payment_method" required>
+                <option value="COD">Cash on Delivery</option>
+                <option value="Online">Online Payment</option>
+            </select>
+
+    </div>
+
+    <!-- Order Summary -->
+    <div class="box">
+        <h3>Order Summary</h3>
+
+        {% if cart_items %}
+
+            {% for item in cart_items %}
+                <div class="summary-item">
+                    <span>
+                        {{ item.product.title }} (x{{ item.quantity }})
+                    </span>
+                    <span>
+                        ₹ {{ item.product.price|floatformat:2 }}
+                    </span>
+                </div>
+            {% endfor %}
+
+            <div class="summary-item total-row">
+                <span>Total Amount:</span>
+                <span>₹ {{ total_price }}</span>
+            </div>
+
+            <a href="{% url 'place_order'%}" >
+            <button type="submit" class="place-order-btn">
+                Confirm & Place Order
+            </button></a>
+
+        {% else %}
+            <div class="empty-cart">
+                Your cart is empty 😢
+            </div>
+        {% endif %}
+
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

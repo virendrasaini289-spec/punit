@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Punit Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            background: #222;
+            padding: 15px;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 20px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #ff6b6b;
+        }
+
+        footer {
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/menu/">Menu</a>
+        <a href="/about/">About</a>
+        <a href="/cart/">Cart</a>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer>
+        © 2026 Punit Store | All Rights Reserved
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,228 @@
+{% extends "store/base.html" %}
+{% block content %}
+
+<style>
+
+/* ===== HERO SECTION ===== */
+.about-hero {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url("https://images.unsplash.com/photo-1523275335684-37898b6baf30");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 120px 20px;
+}
+
+.about-hero h1 {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.about-hero p {
+    font-size: 18px;
+    margin-top: 15px;
+}
+
+/* ===== ABOUT SECTION ===== */
+.about-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 60px 10%;
+    align-items: center;
+    gap: 40px;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+.about-text p {
+    line-height: 1.8;
+    color: #555;
+}
+
+.about-image {
+    flex: 1;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.1);
+}
+
+/* ===== FEATURES SECTION ===== */
+.features {
+    background: #f8f9fa;
+    padding: 60px 10%;
+    text-align: center;
+}
+
+.features h2 {
+    margin-bottom: 40px;
+}
+
+.feature-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.feature-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.feature-box:hover {
+    transform: translateY(-8px);
+}
+
+.feature-box i {
+    font-size: 40px;
+    color: #ff6b6b;
+    margin-bottom: 15px;
+}
+
+/* ===== TEAM SECTION ===== */
+.team {
+    padding: 60px 10%;
+    text-align: center;
+}
+
+.team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.team-member {
+    width: 250px;
+}
+
+.team-member img {
+    width: 100%;
+    border-radius: 50%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.team-member h4 {
+    margin-top: 15px;
+}
+
+/* ===== CTA ===== */
+.cta {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.cta button {
+    background: #ff6b6b;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.cta button:hover {
+    background: #ff4c4c;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width: 768px) {
+    .about-container {
+        flex-direction: column;
+    }
+}
+
+</style>
+
+<!-- HERO SECTION -->
+<div class="about-hero">
+    <h1>About Our Store</h1>
+    <p>We deliver quality products with trust, passion, and excellence.</p>
+</div>
+
+<!-- ABOUT SECTION -->
+<div class="about-container">
+    <div class="about-text">
+        <h2>Our Story</h2>
+        <p>
+            Welcome to our store! We started with a simple vision —
+            to provide high-quality products at affordable prices.
+            Our mission is to create a seamless online shopping experience
+            with fast delivery and excellent customer service.
+        </p>
+    </div>
+
+    <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1515165562835-c4c6c67d8e7b" alt="About Image">
+    </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+    <h2>Why Choose Us?</h2>
+
+    <div class="feature-grid">
+        <div class="feature-box">
+            <h4>Fast Delivery</h4>
+            <p>Get your products delivered quickly and safely.</p>
+        </div>
+
+        <div class="feature-box">
+            <h4>Secure Payment</h4>
+            <p>100% secure and trusted payment system.</p>
+        </div>
+
+        <div class="feature-box">
+            <h4>Best Quality</h4>
+            <p>Premium products with guaranteed satisfaction.</p>
+        </div>
+    </div>
+</div>
+
+<!-- TEAM -->
+<div class="team">
+    <h2>Meet Our Team</h2>
+
+    <div class="team-grid">
+        <div class="team-member">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e">
+            <h4>John Doe</h4>
+            <p>Founder & CEO</p>
+        </div>
+
+        <div class="team-member">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330">
+            <h4>Jane Smith</h4>
+            <p>Marketing Head</p>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+    <h2>Start Shopping Today</h2>
+    <p>Explore our amazing products and enjoy a smooth shopping experience.</p>
+    <button onclick="window.location.href='/menu/'">Shop Now</button>
+</div>
+
+{% endblock %}

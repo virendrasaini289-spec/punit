@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }} | Chai & Co.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#f8f8f8;
+        }
+
+        nav{
+            background:#1e3902;
+            padding:20px 8%;
+            color:white;
+        }
+
+        nav a{
+            color:#c5a059;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        .product-wrapper{
+            padding:60px 8%;
+            display:flex;
+            flex-wrap:wrap;
+            gap:50px;
+            align-items:center;
+        }
+
+        .product-image{
+            flex:1;
+        }
+
+        .product-image img{
+            width:100%;
+            border-radius:20px;
+            box-shadow:0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-info{
+            flex:1;
+        }
+
+        .product-info h1{
+            font-family:'Playfair Display',serif;
+            font-size:2.5rem;
+            color:#1e3902;
+        }
+
+        .price{
+            font-size:1.8rem;
+            color:#c5a059;
+            margin:20px 0;
+            font-weight:bold;
+        }
+
+        .description{
+            line-height:1.6;
+            color:#555;
+            margin-bottom:30px;
+        }
+
+        .quantity-box {
+    display: inline-block;
+        width: 30px;
+}
+
+.quantity-box input {
+    width: 10px;
+    padding: 8px;
+    font-size: 16px;
+    text-align: center;
+    border: 2px solid #00f2ff;
+    border-radius: 10px;
+    background-color: #0f0f0f;
+    color: #00f2ff;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.quantity-box input:focus {
+    box-shadow: 0 0 10px #00f2ff;
+    border-color: #00f2ff;
+}
+
+/* Add to Cart Button */
+.add-btn {
+    margin-left: 10px;
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: linear-gradient(45deg, #00ff1e, #1e3902);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.add-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #1e3902;
+}
+
+
+        @media(max-width:768px){
+            .product-wrapper{
+                flex-direction:column;
+            }
+        }
+
+        .product-info p{
+             color: #c5a059; font-weight: bold; font-size: 1.2rem; margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'home' %}">← Back to Home</a>
+</nav>
+
+<div class="product-wrapper">
+
+    <div class="product-image">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    </div>
+
+    <div class="product-info">
+        <h1>'{{ product.title }}</h1>
+        <p>{{product.description}}</p>
+        <p class="price">
+            ₹{{ product.discount_price }}
+            <del>₹{{ product.price }}</del>
+        </p>
+        
+
+        <form method="POST" action="{% url 'add_to_cart' product.id %}">
+    {% csrf_token %}
+
+    <input class="quantity-box" type="number" name="quantity" value="1" min="1"><br>
+    <button class="add-btn" type="submit">Add to Cart</button>
+</form>
+
+
+       
+    </div>
+
+</div>
+
+</body>
+</html>

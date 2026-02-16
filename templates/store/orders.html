@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Chai & Co.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body {
+            background-color: #f4f7f1; /* Light greenish grey background */
+            color: #333;
+        }
+
+        /* Navbar */
+        nav {
+            height: 50px;
+            position: fixed;
+    top: 0;
+    width: 100%;
+    background: linear-gradient(359deg, #070707, #ff00000f);
+    padding: 1.2rem 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    
+    backdrop-filter: blur(10px);
+        }
+        .logo { font-family: 'Playfair Display', serif; color: white; font-size: 1.8rem; text-decoration:none; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.9rem; }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            margin-top: 15px;
+            font-family: 'Playfair Display', serif;
+            color: #1e3902;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #c5a059;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* Order Card */
+        .order-card {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #ddd;
+        }
+
+        .order-header {
+            background: #f8f9fa;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .order-header b { color: #333; }
+
+        .order-body { padding: 20px 25px; }
+
+        .item-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .item-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .item-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+        .item-info h4 { font-size: 1rem; color: #1e3902; }
+        .item-info p { font-size: 0.85rem; color: #777; }
+
+        .order-footer {
+            padding: 15px 25px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+
+        .status-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .total-price { font-size: 1.1rem; font-weight: bold; color: #333; }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .btn-shop {
+            display: inline-block;
+            margin-top: 20px;
+            background: #c5a059;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-shop:hover { background: #1e3902; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="{% url 'home' %}" class="logo">CHAI & CO.</a>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'menu' %}">Menu</a>
+            <a href="{% url 'menu' %}">My Account</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>My Orders</h1>
+        <div id="orders-container">
+            </div>
+    </div>
+
+    <script>
+        function displayOrders() {
+            const container = document.getElementById('orders-container');
+            const orders = JSON.parse(localStorage.getItem('myOrders')) || [];
+
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" width="100" style="opacity: 0.5;">
+                        <h3 style="margin-top:20px;">Abhi tak koi order nahi kiya!</h3>
+                        <p>Hamari fresh tea collection try karein.</p>
+                        <a href="menu.html" class="btn-shop">Explore Menu</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Latest orders pehle dikhane ke liye reverse kiya
+            orders.reverse().forEach(order => {
+                let itemsHtml = "";
+                
+                order.items.forEach(item => {
+                    itemsHtml += `
+                        <div class="item-row">
+                            <img src="${item.img || 'https://via.placeholder.com/70'}" class="item-img">
+                            <div class="item-info">
+                                <h4>${item.name}</h4>
+                                <p>Quantity: ${item.quantity} | Price: ₹${item.price}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML += `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div>ORDER PLACED: <b>${order.date}</b></div>
+                            <div>ORDER ID: <b>${order.id}</b></div>
+                        </div>
+                        <div class="order-body">
+                            ${itemsHtml}
+                        </div>
+                        <div class="order-footer">
+                            <div class="status-badge">● Confirmed</div>
+                            <div class="total-price">Total Paid: ₹${order.total}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Page load hote hi function chalao
+        displayOrders();
+    </script>
+</body>
+</html>

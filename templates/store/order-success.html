@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Placed</title>
+    <style>
+        body{
+            background:#f4f4f4;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            font-family:Poppins;
+        }
+        .box{
+            background:white;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.1);
+            text-align:center;
+        }
+        h1{
+            color:green;
+            margin-bottom:20px;
+        }
+        a{
+            display:inline-block;
+            margin-top:20px;
+            padding:12px 25px;
+            background:#1e3902;
+            color:white;
+            text-decoration:none;
+            border-radius:50px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>✅ Order Placed Successfully!</h1>
+    <p>Thank you for shopping with us.</p>
+    <a href="{% url 'home' %}">Continue Shopping</a>
+</div>
+
+</body>
+</html>

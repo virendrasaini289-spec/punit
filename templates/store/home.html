@@ -1,0 +1,472 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chai & Co. | Premium Tea</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Common */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+        body { 
+           
+            background: #ffffff;
+             overflow-x: hidden;
+              
+}
+        
+        /* Sticky Navbar */
+        nav { 
+            position: fixed; top: 0; width: 100%; background: linear-gradient(359deg, #070707, #ff00000f);height: 50px;
+            padding: 1.2rem 8%; display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;  backdrop-filter: blur(10px);
+        }
+        .logo { font-family: 'Playfair Display', serif; color: #ffffffd1; font-size: 1.8rem; text-decoration:none; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 25px; font-size: 0.9rem; text-transform: uppercase; }
+        .nav-links a:hover { color: #c5a059; }
+
+        .logo-img{
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+        }
+
+        /* Hero */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;background:linear-gradient(rgba(63, 62, 62, 0.44), rgb(0 0 0 / 0%)),  url("https://images.unsplash.com/photo-1523275335684-37898b6baf30");background-size: cover; }
+        .hero-text {
+  font-size: 48px;
+    font-weight: bold;
+    color:white;
+}
+
+#dynamic-text {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlide 2s ease forwards;
+  color: #979292;
+  text-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+    text-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    text-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+}
+        .btn { background: #c5a059; color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: 0.3s; margin-top: 20px; }
+        .btn:hover { background: #1e3902; transform: scale(1.05); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; padding-top: 25px; }
+
+
+        .card {
+            background: rgb(193 193 193 / 91%); border-radius: 20px; padding: 15px;
+            color: #333; transition: 0.4s; text-align: center;
+            border: 1px solid black;
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; height: 230px; object-fit: cover; border-radius: 15px; }
+        .price { color: #c5a059; font-weight: bold; font-size: 1.2rem; margin: 10px 0; }
+        
+        .quick-view-btn{ 
+           background:  black;
+            color: white;
+            padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    margin-top: 20px;
+                    }
+         .quick-view-btn:hover { background: #1e3902; }           
+
+        .about{
+            margin-top: 30px;
+            border-top: 2px solid #c5a059;
+            border-radius: 1%;
+        }
+
+/* ===== FEATURES SECTION ===== */
+.features {
+    background: #f8f9fa;
+    padding: 60px 10%;
+    text-align: center;
+}
+
+.features h2 {
+    margin-bottom: 40px;
+}
+
+.feature-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.feature-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.feature-box:hover {
+    transform: translateY(-8px);
+}
+
+.feature-box i {
+    font-size: 40px;
+    color: #ff6b6b;
+    margin-bottom: 15px;
+}
+
+/* ===== SEARCH SECTION ===== */
+
+/* ===== SEARCH TOGGLE STYLE ===== */
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+}
+
+/* Round button */
+.search-toggle {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.3s;
+    padding-left: 20px;
+    width: 30px;
+}
+
+
+
+/* Hidden search box */
+.search-box {
+    position: absolute;
+    right: 0;
+    top: 60px;
+    display: flex;
+    background: white;
+    border-radius: 40px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: 0;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+/* Active state */
+.search-box.active {
+    width: 300px;
+    opacity: 1;
+}
+
+/* Input */
+.search-box input {
+    flex: 1;
+    border: none;
+    padding: 10px 15px;
+    outline: none;
+}
+
+/* Button */
+.search-box button {
+    background: #D2691E;
+    border: none;
+    color: white;
+    padding: 0 20px;
+    cursor: pointer;
+}
+.search-icon{
+        width: 30px;
+}
+
+
+/* ================= RESPONSIVE DESIGN ================= */
+
+/* Tablet View */
+@media (max-width: 1024px) {
+
+    nav {
+        padding: 1rem 5%;
+    }
+
+    .hero-text {
+        font-size: 36px;
+    }
+
+    .grid {
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .features {
+        padding: 40px 5%;
+    }
+
+    .feature-box {
+        width: 45%;
+    }
+}
+
+
+/* Mobile View */
+@media (max-width: 768px) {
+
+    nav {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .nav-links {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .nav-links a {
+        margin-left: 0;
+        font-size: 0.8rem;
+    }
+
+    .search-wrapper {
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .search-box.active {
+        width: 250px;
+    }
+
+    .hero {
+        height: 90vh;
+        padding: 20px;
+    }
+
+    .hero-text {
+        font-size: 28px;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        font-size: 14px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        padding: 15px;
+    }
+
+    .card img {
+        height: 200px;
+    }
+
+    .feature-box {
+        width: 100%;
+    }
+
+    .about {
+        padding: 20px;
+        text-align: center;
+    }
+
+}
+
+
+/* Small Mobile */
+@media (max-width: 480px) {
+
+    .hero-text {
+        font-size: 22px;
+    }
+
+    .search-box.active {
+        width: 200px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+
+}
+
+
+
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="home.html" class="logo">SAGTANI CHAI & CO.</a>
+        <div class="search-wrapper">
+    
+
+
+        <div class="nav-links" id="nav-actions">
+            
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'menu' %}">Menu</a>
+            <a href="{% url 'cart' %}">Cart</a>
+            <a href="{% url 'order' %}">order</a>
+            <a href="{% url 'about' %}">About</a>
+           {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}">My Account</a>
+            <a href="{% url 'login' %}">Logout</a>
+           {% else %}
+            <a href="{% url 'login' %}">Login</a>
+           {% endif %}
+            
+        </div>
+        <div class="search-toggle" onclick="toggleSearch()">
+            
+        <img class="search-icon" src="{% static 'image/search.png' %}" alt="">
+    </div>
+
+    <form method="GET" action="{% url 'search' %}" class="search-box" id="searchBox">
+        <input type="text" name="q" placeholder="Search chai...">
+        <button type="submit">Search</button>
+    </form>
+</div>
+    </nav>
+    <section class="hero">
+        {% block content %}
+<h1 class="hero-text">
+  <span id="dynamictext">Welcome to Punit Web</span>
+</h1>
+
+{% endblock %}
+
+        <p style="font-size: 18px;
+    margin-top: 15px;color: white;" >Experience the soul of premium tea leaves.</p>
+        <a href="{% url 'menu' %}" class="btn">Menu</a>
+
+    </section>
+
+    <section class="items" >
+        <h1 style="color: black;margin-left: 50%;">Product</h1>
+        <div class="grid">
+            {% for product in products %}
+<div class="card">
+    <img src="{{ product.image.url }}">
+    <h3>{{ product.title }}</h3>
+
+    {% if product.discount_price %}
+        <p class="price">
+            ₹{{ product.discount_price }}
+            <del>₹{{ product.price }}</del>
+        </p>
+        <a href="{% url 'product_detail' product.id %}">
+            <button class="quick-view-btn">view</button>
+        </a>
+    {% else %}
+        <p class="price">₹{{ product.price }}</p>
+    {% endif %}
+
+</div>
+{% endfor %}
+
+  </div>
+</section>
+
+<div class="features">
+    <h2>Why Choose Us?</h2>
+
+    <div class="feature-grid">
+        <div class="feature-box">
+            <h4>Fast Delivery</h4>
+            <p>Get your products delivered quickly and safely.</p>
+        </div>
+
+        <div class="feature-box">
+            <h4>Secure Payment</h4>
+            <p>100% secure and trusted payment system.</p>
+        </div>
+
+        <div class="feature-box">
+            <h4>Best Quality</h4>
+            <p>Premium products with guaranteed satisfaction.</p>
+        </div>
+    </div>
+</div>
+
+
+<section class="about" >
+    <h2 style="color: black;">About Our Store</h2>
+    <p style="color: black;">
+        We are committed to providing the best online shopping experience.
+        Our products are carefully selected to ensure top quality and customer satisfaction.
+    </p>
+</section>
+    <script>
+      const texts = [
+  "Welcome to Punit Web ☕",
+  "Premium Quality Tea Store",
+  "Fresh • Organic • Healthy",
+  "Taste That Calms Your Mind",
+  "Delivered With Love ❤️"
+];
+
+let index = 0;
+const textEl = document.getElementById("dynamictext");
+
+function changeText() {
+  // reset animation
+  textEl.style.animation = "none";
+  textEl.offsetHeight; // trigger reflow
+
+  textEl.innerText = texts[index];
+  textEl.style.animation = "fadeSlide 2s ease forwards";
+
+  index = (index + 1) % texts.length;
+}
+
+changeText();
+setInterval(changeText, 3000); // every 3 sec
+
+
+        // Navbar JS logic
+const btnLink = document.getElementById('login-nav-btn'); // Maan lo aapka login link ye hai
+if (localStorage.getItem('isLoggedIn') === 'true') {
+    btnLink.innerText = "My Account";
+    btnLink.href = "login.html"; // Ye ab Account page ka kaam karega
+} else {
+    btnLink.innerText = "Login";
+    btnLink.href = "login.html";
+}
+
+
+function toggleSearch() {
+    var box = document.getElementById("searchBox");
+    box.classList.toggle("active");
+}
+
+
+
+
+
+
+</script>
+    
+</body>
+</html>
